@@ -47,7 +47,7 @@ Note that you can use `python voxceleb_create_webdatasets.py <in_folder> <out_fo
 
 Run the following command to train xvectors:
 
-`python train_speaker_embeddings.py hyperparams/train_x_vectors.yaml`
+`python train_speaker_embeddings.py hyperparams/train_x_vectors_shards.yaml`
 
 You can use the same script for voxceleb1, voxceleb2, and voxceleb1+2. Just change the datafolder and the corresponding number of speakers (1211 vox1, 5994 vox2, 7205 vox1+2).
 For voxceleb1 + voxceleb2, see preparation instructions below).
