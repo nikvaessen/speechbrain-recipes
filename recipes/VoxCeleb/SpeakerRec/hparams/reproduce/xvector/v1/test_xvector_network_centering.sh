@@ -12,4 +12,7 @@
 #SBATCH --mail-user=nvaessen
 #SBATCH --mail-type=BEGIN,END,FAIL
 
-poetry run python train_speaker_embeddings.py hparams/train_x_vectors.yaml
+# run this script from ~/speechbrain-recipes/recipes/VoxCeleb/SpeakerRec
+
+pwd
+poetry run python speaker_verification_plda.py hparams/reproduce/xvector/v1/verification_plda_xvector.yaml

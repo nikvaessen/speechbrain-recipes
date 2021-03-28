@@ -269,6 +269,7 @@ if __name__ == "__main__":
 
     params["embedding_model"].eval()
     params["embedding_model"].to(params["device"])
+    params["mean_var_norm_emb"].to(params["device"])
 
     # Computing training embeddigs (skip it of if already extracted)
     if not os.path.exists(xv_file):

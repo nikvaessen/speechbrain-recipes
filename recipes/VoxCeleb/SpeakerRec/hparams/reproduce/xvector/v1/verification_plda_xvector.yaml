@@ -3,14 +3,22 @@
 # Authors: Nauman Dawalatabad & Mirco Ravanelli 2020
 # ################################
 
-seed: 1234
+seed: 1986
+version: 1
+ckpt_name: CKPT+2021-03-28+19-48-02+00
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 
+# Here, the pretrained embedding model trained with train_speaker_embeddings.py hparams/train_ecapa_tdnn.yaml
+# is downloaded from the speechbrain HuggingFace repository.
+# However, a local path pointing to a directory containing your checkpoints may also be specified
+# instead (see pretrainer below)
+pretrain_path: !ref results/speechbrain/voxceleb/xvect_augment/<seed>/<version>/save/<ckpt_name>
+
 # Folders and train_log file
-data_folder: /localscratch/voxceleb1_2  # use vox 1, vox2, or vox1+vox2 datasets
-output_folder: results/voxceleb1/speaker_verification_plda_xvectors
+data_folder: data/speechbrain/voxceleb # use vox 1, vox2, or vox1+vox2 datasets
+output_folder: !ref <pretrain_path>/results
 save_folder: !ref <output_folder>/save/
-device: 'cuda:0'
+device: 'cpu'
 
 # Use the following links for the official voxceleb splits:
 # VoxCeleb1 (cleaned): https://www.robots.ox.ac.uk/~vgg/data/voxceleb/meta/veri_test2.txt
@@ -20,18 +28,12 @@ device: 'cuda:0'
 # Therefore you cannot use any files in VoxCeleb1 for training if you are using these lists for testing.
 verification_file: https://www.robots.ox.ac.uk/~vgg/data/voxceleb/meta/veri_test2.txt
 
-# Here, the pretrained embedding model trained with train_speaker_embeddings.py hparams/train_ecapa_tdnn.yaml
-# is downloaded from the speechbrain HuggingFace repository.
-# However, a local path pointing to a directory containing your checkpoints may also be specified
-# instead (see pretrainer below)
-pretrain_path: speechbrain/spkrec-xvect-voxceleb
-
 # csv files
 train_data: !ref <save_folder>/train.csv
 enrol_data: !ref <save_folder>/enrol.csv
 test_data: !ref <save_folder>/test.csv
 
-batch_size: 128
+batch_size: 64
 n_train_snts: 300000 # used for normalization stats
 
 # Feature parameters
@@ -81,4 +83,4 @@ pretrainer: !new:speechbrain.utils.parameter_transfer.Pretrainer
         mean_var_norm_emb: !ref <mean_var_norm_emb>
     paths:
         embedding_model: !ref <pretrain_path>/embedding_model.ckpt
-        mean_var_norm_emb: !ref <pretrain_path>/mean_var_norm_emb.ckpt
+        mean_var_norm_emb: !ref <pretrain_path>/mean_var_norm.ckpt
